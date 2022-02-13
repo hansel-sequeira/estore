@@ -1,0 +1,31 @@
+.navbarLogo{
+    font-weight: 600;
+    padding-left: 20px;
+}
+
+.header_right{
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.auth{
+    display: inline-block;
+    a{
+        text-decoration: none;
+        color: white;
+        margin-right: 10px;
+    }
+}
+
+
+.widget{
+    display: inline-block;
+    padding-left: 50px;
+  }
+
+.widget li{
+    list-style: none;
+    display: inline-block;
+    color:white;
+    margin-right: 20px;
+  }
