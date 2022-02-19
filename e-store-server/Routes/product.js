@@ -28,4 +28,29 @@ product.get("/getCategories", (req,res)=>{
     })
 })
 
+product.get("/getProducts", (req,res)=>{
+    let appData = {
+        error: false,
+        data: []
+    }
+    database.connection.getConnection((err, connection)=>{
+        if(err){
+            appData.error = true,
+            appData.data = err;
+            res.status(500).json(appData);
+        } else {
+            connection.query("select * from products", (err, rows)=>{
+                if(err){
+                    appData.error = true,
+                    appData.data = err;
+                    res.status(500).json(appData);
+                } else {
+                    appData.data = rows;
+                    res.status(200).json(appData);
+                }
+            })
+        }
+    })
+})
+
 module.exports = product;
