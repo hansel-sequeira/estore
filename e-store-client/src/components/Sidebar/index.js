@@ -1,19 +1,37 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import * as actionTypes from "../../redux/actions/product"
 import {useSelector, useDispatch} from "react-redux";
 import "./_sidebar.scss";
 
 const Sidebar = ()=>{
-
     const dispatch = useDispatch();
     const categories = useSelector((state) => state.product.categories);
     const products = useSelector((state) => state.product.products);
+    const [categoryFilter, setCategoryFilter] = useState([]);
+    const [filter, setFilter] = useState({});
 
-    const applyProductFilter = (subitem)=>{
+    const applyProductFilter = (subitems)=>{
         let tempFilter = {
-            category_id : subitem.id
+            ...filter, 
+            category_id : subitems.map((x)=>x.id)
         }
-        dispatch(actionTypes.applyFilter(tempFilter, products));
+        setFilter(tempFilter);
+        if(tempFilter.category_id.length > 0){
+            dispatch(actionTypes.applyFilter(tempFilter, products));
+        } else {
+            dispatch(actionTypes.applyFilter(null, products));
+        }
+    }
+
+    const checkboxChange = (evt, subitem) => {
+        let tempCategories = [...categoryFilter];
+        if(evt.target.checked){
+            tempCategories.push(subitem);
+        } else {
+            tempCategories = tempCategories.filter(x=> x.id !=subitem.id);
+        }
+        setCategoryFilter(tempCategories);
+        applyProductFilter(tempCategories);
     }
     
     useEffect(()=>{
@@ -22,7 +40,6 @@ const Sidebar = ()=>{
 
     return (
         <div>
-
             <div className="flex-shrink-0 p-3 bg-white">
             <span className="fs-5 fw-semibold">Categories</span>
             <ul className="list-unstyled ps-0">
@@ -40,7 +57,12 @@ const Sidebar = ()=>{
                                 {
                                 item.subcategory.map((subitem, subindex)=>{
                                     return (
-                                        <li key={subindex}><a href={null} onClick={()=>applyProductFilter(subitem)} className="link-dark rounded">{subitem.name}</a></li>
+                                        <li key={subindex}>
+                                            <div className="form-check">
+                                                <input type="checkbox" name={subitem.name} className="form-check-input" onChange={(evt)=>{checkboxChange(evt,subitem)}}></input>
+                                                <label className="form-check-label">{subitem.name}</label>
+                                            </div>
+                                        </li>
                                     )
                                 })
                                 }

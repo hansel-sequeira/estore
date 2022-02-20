@@ -75,7 +75,8 @@ const buildQuery = (filter) => {
 const filterData = (data, query) => {
     const filteredData = data.filter((item) => {
         for(let keys in query){
-            if(query[keys]===undefined || query[keys] !== item[keys]){
+            console.log("Current key is: ",keys);
+            if(query[keys]===undefined || !query[keys].includes(item[keys])){
                 return false;
             } 
         } return true; //if all query params pass, return this data item
