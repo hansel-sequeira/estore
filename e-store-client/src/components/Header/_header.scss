@@ -29,3 +29,21 @@
     color:white;
     margin-right: 20px;
   }
+
+  .fa-shopping-cart{
+      position: relative;
+  }
+
+  .cartItems{
+      position: absolute;
+      left: 10px;
+      bottom: 10px;
+      height: 20x;
+      width: 20px;
+      background: orange;
+      border-radius: 50%;
+      font-size: 12px;
+      font-weight: bold;
+      line-height: 20px;
+      text-align: center;
+  }

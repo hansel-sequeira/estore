@@ -1,8 +1,13 @@
 import React from "react";
 import "./_header.scss";
+import { useSelector } from "react-redux";
 import TopMenu from "../TopMenu";
 
 const Header = ()=>{
+
+    const cart = useSelector((state)=>state.cart);
+    console.log("From the header: ", cart);
+
     return(
         <div>
             <nav className="navbar navbar-dark bg-dark">
@@ -38,7 +43,10 @@ const Header = ()=>{
                         
                         <ul className="widget">
                         <li><i className="fa fa-heart"></i> </li>
-                        <li><i className="fa fa-shopping-cart"></i> </li>
+                        <li><i className="fa fa-shopping-cart">
+                            {cart.totalItems>0 && <div className="cartItems">{cart.totalQuantity}</div>}
+                            </i>
+                        </li>
                         </ul>
                     </div>
                 </div>

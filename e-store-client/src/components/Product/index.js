@@ -1,14 +1,23 @@
 import React, {useEffect} from "react";
 import {useSelector, useDispatch} from "react-redux";
-import * as action from "../../redux/actions/product"
+import * as productAction from "../../redux/actions/product"
+import * as cartAction from "../../redux/actions/cart";
 import "./_product.scss";
 
 const Product = ()=>{
     const dispatch = useDispatch();
     const products = useSelector((state)=>state.product.products);
+    const cart = useSelector((state)=>state.cart);
     useEffect(()=>{
-        dispatch(action.getProducts())
+        dispatch(productAction.getProducts())
         },[])
+    useEffect(()=>{
+        console.log("Cart is: ", cart);
+    },[cart])
+
+    const addCartItem = (cartItem) => {
+        dispatch(cartAction.addCartItem(cartItem));
+    }
 
     return(
         <div className="row">
@@ -19,7 +28,7 @@ const Product = ()=>{
                             <img className="product__item__pic" src={item.src} />
                             <ul className="product__hover">
                                 <li>
-                                    <a href={item.src}>
+                                    <a href={null} onClick={()=>addCartItem(item)}>
                                         <span className="fa fa-shopping-cart" />
                                     </a>
                                 </li>
