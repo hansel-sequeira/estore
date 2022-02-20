@@ -7,6 +7,14 @@ const Sidebar = ()=>{
 
     const dispatch = useDispatch();
     const categories = useSelector((state) => state.product.categories);
+    const products = useSelector((state) => state.product.products);
+
+    const applyProductFilter = (subitem)=>{
+        let tempFilter = {
+            category_id : subitem.id
+        }
+        dispatch(actionTypes.applyFilter(tempFilter, products));
+    }
     
     useEffect(()=>{
             dispatch(actionTypes.getProductCategories());
@@ -32,7 +40,7 @@ const Sidebar = ()=>{
                                 {
                                 item.subcategory.map((subitem, subindex)=>{
                                     return (
-                                        <li key={subindex}><a href="#" className="link-dark rounded">{subitem.name}</a></li>
+                                        <li key={subindex}><a href={null} onClick={()=>applyProductFilter(subitem)} className="link-dark rounded">{subitem.name}</a></li>
                                     )
                                 })
                                 }

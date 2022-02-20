@@ -6,7 +6,6 @@ import TopMenu from "../TopMenu";
 const Header = ()=>{
 
     const cart = useSelector((state)=>state.cart);
-    console.log("From the header: ", cart);
 
     return(
         <div>

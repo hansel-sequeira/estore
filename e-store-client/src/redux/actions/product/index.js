@@ -39,6 +39,7 @@ export const getProducts = () => async (dispatch) => {
         productArr = res.data.data.map((item)=>{
             return {
                 id: item.id,
+                category_id: item.category_id,
                 src: `http://localhost:5000/${item.img}`,
                 name: item.name,
                 price: item.price
@@ -48,4 +49,36 @@ export const getProducts = () => async (dispatch) => {
         console.log("Error while retrieving products from the database! ", err);
     })
     dispatch({type:actionTypes.PRODUCT, data: productArr});
+    dispatch({
+        type: actionTypes.FILTER_PRODUCT,
+        data: productArr
+    })
 } 
+
+export const applyFilter = (param, product)=> (dispatch) => {
+    let query = buildQuery(param);
+    let filteredData = filterData(product,query);
+    dispatch({
+        type: actionTypes.FILTER_PRODUCT,
+        data: filteredData
+    })
+}
+
+const buildQuery = (filter) => {
+    let query = {};
+    for(let keys in filter){
+        query[keys] = filter[keys];
+    }
+    return query;
+}
+
+const filterData = (data, query) => {
+    const filteredData = data.filter((item) => {
+        for(let keys in query){
+            if(query[keys]===undefined || query[keys] !== item[keys]){
+                return false;
+            } 
+        } return true; //if all query params pass, return this data item
+    });
+    return filteredData;
+}

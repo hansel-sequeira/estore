@@ -2,7 +2,8 @@ import * as actionTypes from "../../actions/product/types"
 
 const initState = {
     categories: [],
-    products: []
+    products: [],
+    filteredProducts: []
 }
 
 export const product = (state = initState, action)=>{
@@ -14,6 +15,10 @@ export const product = (state = initState, action)=>{
         case actionTypes.PRODUCT: return {
             ...state, 
             products: action.data
+        }
+        case actionTypes.FILTER_PRODUCT: return {
+            ...state,
+            filteredProducts: action.data
         }
         default: return state;
     }

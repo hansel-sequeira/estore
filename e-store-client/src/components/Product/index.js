@@ -7,21 +7,18 @@ import "./_product.scss";
 const Product = ()=>{
     const dispatch = useDispatch();
     const products = useSelector((state)=>state.product.products);
-    const cart = useSelector((state)=>state.cart);
+    const filteredProducts = useSelector((state)=>state.product.filteredProducts);
+    
     useEffect(()=>{
         dispatch(productAction.getProducts())
         },[])
-    useEffect(()=>{
-        console.log("Cart is: ", cart);
-    },[cart])
 
     const addCartItem = (cartItem) => {
         dispatch(cartAction.addCartItem(cartItem));
     }
-
     return(
         <div className="row">
-            {products.map((item, index) => (
+            {filteredProducts.map((item, index) => (
                 <div className="col-lg-3 col-md-6" key={index}>
                     <div className="product__item">
                         <div className="product__item__pic">
