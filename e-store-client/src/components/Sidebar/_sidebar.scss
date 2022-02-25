@@ -43,4 +43,16 @@
   .fw-semibold { font-weight: 600; }
   .lh-tight { line-height: 1.25; }
 
+  .filter_label{
+    padding-top: 10px;
+    padding-bottom: 5px;
+    font-size: 15px;
+  }
   
+  .input[type="range"]{
+    width: 100%
+  }
+
+  .slider_label{
+    font-size: 12px;
+  }

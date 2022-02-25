@@ -30,7 +30,7 @@ const Sidebar = ()=>{
 
     return (
         <div>
-            <div className="flex-shrink-0 p-3 bg-white">
+            <div className="flex-shrink-0 px-3 py-2 bg-white">
             <span className="fs-5 fw-semibold">Categories</span>
             <ul className="list-unstyled ps-0">
             <li className="border-top my-3"></li>
@@ -66,16 +66,17 @@ const Sidebar = ()=>{
                 })
             }           
 
-        
-            <li className="border-top my-3"></li>
+            </ul>
+        </div> 
 
-
-            <li className="mb-1">
+            <div className="flex-shrink-0 px-3 bg-white">
+                <ul className="list-unstyled ps-0">
+                <li className="border-top my-3"></li>
+                </ul>
                 <span className="fs-5 fw-semibold">Price Filter</span>
-                <div>{`From $${filter?.price?.min || 0} - $${filter?.price?.max || 150}`}</div>
-                <div>
-                    <p>
-                        Min: 
+                <div className="filter_label">{`From $${filter?.price?.min || 0} - $${filter?.price?.max || 150}`}</div>
+                <div className="py-3">
+                        <div className="slider_label">Minimum</div> 
                         <input type="range" id="min_slider" min={1} max={150} step={1} defaultValue={0} onChange={(evt)=>{
                             setFilter({
                                 ...filter,
@@ -85,9 +86,7 @@ const Sidebar = ()=>{
                                 }
                             })
                         }}/>
-                    </p>
-                    <p>
-                        Max: 
+                        <div className="slider_label">Maximum</div>
                         <input type="range" id="max_slider" min={1} max={150} defaultValue={150} step={1} onChange={(evt)=>{
                             setFilter({
                                 ...filter,
@@ -97,18 +96,8 @@ const Sidebar = ()=>{
                                 }
                             })
                         }}/>
-                    </p>
-
-                    <button className="btn-sidebar" onClick={()=>dispatch(actionTypes.applyFilter(filter, products))}>Apply filter</button>
-                    <button className="btn-sidebar" onClick={()=>{
-                        setFilter([]);
-                        dispatch(actionTypes.applyFilter(null, products))
-                    }}>Remove all filters</button>
                 </div>
-            </li>
-            </ul>
-        </div> 
-
+            </div>
         </div>
     )
 }
