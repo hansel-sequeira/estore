@@ -41,7 +41,7 @@ const Product = ()=>{
                         </div>
                         <div className="product__item__text">
                             <h6>
-                                <Link to="/productDetails">{item.name}</Link>
+                                <Link to={{pathname: "/productDetails", payload: item}}>{item.name}</Link>
                             </h6>
                             <div className="rating">
                                 <i className="fa fa-star" />
