@@ -8,6 +8,7 @@ const Product = ()=>{
     const dispatch = useDispatch();
     const products = useSelector((state)=>state.product.products);
     const filteredProducts = useSelector((state)=>state.product.filteredProducts);
+    const cart = useSelector((state) => state.cart);
     
     useEffect(()=>{
         dispatch(productAction.getProducts())
@@ -16,6 +17,12 @@ const Product = ()=>{
     const addCartItem = (cartItem) => {
         dispatch(cartAction.addCartItem(cartItem));
     }
+
+    // to print the cart's state on inserting a product in the cart
+    // useEffect(()=>{
+    //     console.log("Cart's state: ", cart);
+    // },[cart])
+
     return(
         <div className="row">
             {filteredProducts.map((item, index) => (

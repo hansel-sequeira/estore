@@ -17,8 +17,8 @@ export const cart = (state = initState, action)=>{
                 itemExists.itemTotalPrice += action.data.price;
                 return {
                     ...state,
-                    cartTotalPrice: state.cartItems.reduce((a,b)=>a+b.itemTotalPrice, 0),
-                    totalQuantity: state.cartItems.reduce((a,b)=>a+b.quantity, 0)
+                    cartTotalPrice: state.cartTotalPrice + action.data.price,
+                    totalQuantity: state.totalQuantity + 1
                 }
             } else {
                 let tempData = action.data;
@@ -27,9 +27,9 @@ export const cart = (state = initState, action)=>{
                 return {
                     ...state,
                     cartItems: [...state.cartItems, tempData],
-                    cartTotalPrice: state.cartItems.reduce((a,b)=>a+b.itemTotalPrice, 0) + tempData.itemTotalPrice,
+                    cartTotalPrice: state.cartTotalPrice + tempData.itemTotalPrice,
                     totalItems: state.cartItems.length + 1,
-                    totalQuantity: state.cartItems.reduce((a,b)=>a+b.quantity, 0) + tempData.quantity
+                    totalQuantity: state.totalQuantity + 1
                 }
             }
 
