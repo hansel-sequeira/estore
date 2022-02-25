@@ -1,5 +1,6 @@
 import React, {useEffect} from "react"
 import {useSelector, useDispatch} from "react-redux";
+import { Link } from "react-router-dom";
 import * as action from "../../redux/actions/topMenu"
 import "./_topmenu.scss"
 
@@ -24,7 +25,7 @@ const TopMenu = ()=>{
                     {
                         menuItems.map((item, index)=>(
                             <li className="nav-item" key={index}>
-                                <a className="nav-link" href="#">{item}</a>
+                                <Link className="nav-link" to="/">{item}</Link>
                             </li>
                         ))
                     }

@@ -1,4 +1,5 @@
 import React, {useEffect} from "react";
+import { Link } from "react-router-dom";
 import {useSelector, useDispatch} from "react-redux";
 import * as productAction from "../../redux/actions/product"
 import * as cartAction from "../../redux/actions/cart";
@@ -40,7 +41,7 @@ const Product = ()=>{
                         </div>
                         <div className="product__item__text">
                             <h6>
-                                <a href="#">{item.name}</a>
+                                <Link to="/productDetails">{item.name}</Link>
                             </h6>
                             <div className="rating">
                                 <i className="fa fa-star" />
