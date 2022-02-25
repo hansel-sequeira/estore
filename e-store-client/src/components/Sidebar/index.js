@@ -7,36 +7,26 @@ const Sidebar = ()=>{
     const dispatch = useDispatch();
     const categories = useSelector((state) => state.product.categories);
     const products = useSelector((state) => state.product.products);
-    const [categoryFilter, setCategoryFilter] = useState([]);
-    const [filter, setFilter] = useState({});
-
-    const applyProductFilter = (subitems)=>{
-        let tempFilter = {
-            ...filter, 
-            category_id : subitems.map((x)=>x.id)
-        }
-        setFilter(tempFilter);
-        if(tempFilter.category_id.length > 0){
-            dispatch(actionTypes.applyFilter(tempFilter, products));
-        } else {
-            dispatch(actionTypes.applyFilter(null, products));
-        }
-    }
+    const [filter, setFilter] = useState({category_id:[], price:{}});
 
     const checkboxChange = (evt, subitem) => {
-        let tempCategories = [...categoryFilter];
+        let tempFilter = {...filter};
         if(evt.target.checked){
-            tempCategories.push(subitem);
+            tempFilter.category_id.push(subitem.id);
         } else {
-            tempCategories = tempCategories.filter(x=> x.id !=subitem.id);
+            tempFilter.category_id = tempFilter.category_id.filter(x => x != subitem.id);
         }
-        setCategoryFilter(tempCategories);
-        applyProductFilter(tempCategories);
+        setFilter(tempFilter);
     }
+
+    useEffect(()=>{
+        dispatch(actionTypes.applyFilter(filter, products));
+    },[filter])
     
     useEffect(()=>{
             dispatch(actionTypes.getProductCategories());
     }, [])
+
 
     return (
         <div>
@@ -59,7 +49,9 @@ const Sidebar = ()=>{
                                     return (
                                         <li key={subindex}>
                                             <div className="form-check">
-                                                <input type="checkbox" name={subitem.name} className="form-check-input" onChange={(evt)=>{checkboxChange(evt,subitem)}}></input>
+                                                <input type="checkbox" name={subitem.name} className="form-check-input"
+                                                 onChange={(evt)=>{checkboxChange(evt,subitem)}}
+                                                 checked={filter.category_id.find(x => x === subitem.id) ? true:false}></input>
                                                 <label className="form-check-label">{subitem.name}</label>
                                             </div>
                                         </li>
@@ -74,21 +66,46 @@ const Sidebar = ()=>{
                 })
             }           
 
-        {/* 
+        
             <li className="border-top my-3"></li>
 
 
             <li className="mb-1">
-                <button className="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
-                Account
-                </button>
-                <div className="collapse" id="account-collapse">
-                <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                    <li><a href="#" className="link-dark rounded">New...</a></li>
-                    <li><a href="#" className="link-dark rounded">Profile</a></li>
-                </ul>
+                <span className="fs-5 fw-semibold">Price Filter</span>
+                <div>{`From $${filter?.price?.min || 0} - $${filter?.price?.max || 150}`}</div>
+                <div>
+                    <p>
+                        Min: 
+                        <input type="range" id="min_slider" min={1} max={150} step={1} defaultValue={0} onChange={(evt)=>{
+                            setFilter({
+                                ...filter,
+                                price: {
+                                    ...filter.price,
+                                    min: evt.target.value
+                                }
+                            })
+                        }}/>
+                    </p>
+                    <p>
+                        Max: 
+                        <input type="range" id="max_slider" min={1} max={150} defaultValue={150} step={1} onChange={(evt)=>{
+                            setFilter({
+                                ...filter,
+                                price: {
+                                    ...filter.price,
+                                    max: evt.target.value
+                                }
+                            })
+                        }}/>
+                    </p>
+
+                    <button className="btn-sidebar" onClick={()=>dispatch(actionTypes.applyFilter(filter, products))}>Apply filter</button>
+                    <button className="btn-sidebar" onClick={()=>{
+                        setFilter([]);
+                        dispatch(actionTypes.applyFilter(null, products))
+                    }}>Remove all filters</button>
                 </div>
-            </li> */}
+            </li>
             </ul>
         </div> 
 

@@ -55,9 +55,9 @@ export const getProducts = () => async (dispatch) => {
     })
 } 
 
-export const applyFilter = (param, product)=> (dispatch) => {
+export const applyFilter = (param, products)=> (dispatch) => {
     let query = buildQuery(param);
-    let filteredData = filterData(product,query);
+    let filteredData = filterData(products,query);
     dispatch({
         type: actionTypes.FILTER_PRODUCT,
         data: filteredData
@@ -73,13 +73,24 @@ const buildQuery = (filter) => {
 }
 
 const filterData = (data, query) => {
+    if(query.category_id.length===0 && query.price.min===undefined && query.price.max===undefined){
+        return data;
+    }
     const filteredData = data.filter((item) => {
-        for(let keys in query){
-            console.log("Current key is: ",keys);
-            if(query[keys]===undefined || !query[keys].includes(item[keys])){
+    for(let keys in query){
+        if(keys==="price"){
+            if(query[keys]['min']!==null && item[keys] < query[keys]['min']){
                 return false;
-            } 
-        } return true; //if all query params pass, return this data item
+            }
+            if(query[keys]['max']!==null && item[keys] > query[keys]['max']){
+                return false;
+            }
+        }  else if(keys==="category_id" && query[keys].length!==0 && !query[keys].includes(item[keys])){
+            return false;
+        } 
+    } return true; //if all query params pass, return this data item
     });
     return filteredData;
 }
+
+
