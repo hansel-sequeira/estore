@@ -13,23 +13,23 @@ export const cart = (state = initState, action)=>{
 
             let itemExists = state.cartItems.find((x) => x.id === action.data.id);
             if(itemExists){
-                itemExists.quantity += 1;
-                itemExists.itemTotalPrice += action.data.price;
+                itemExists.quantity += (action.data.qty || 1);
+                itemExists.itemTotalPrice = itemExists.price* itemExists.quantity;
                 return {
                     ...state,
-                    cartTotalPrice: state.cartTotalPrice + action.data.price,
-                    totalQuantity: state.totalQuantity + 1
+                    cartTotalPrice: state.cartTotalPrice + (action.data.price*(action.data.qty || 1)),
+                    totalQuantity: state.totalQuantity + (action.data.qty || 1)
                 }
             } else {
                 let tempData = action.data;
-                tempData.quantity = 1;
+                tempData.quantity = action.data.qty || 1;
                 tempData.itemTotalPrice = tempData.price * tempData.quantity;
                 return {
                     ...state,
                     cartItems: [...state.cartItems, tempData],
                     cartTotalPrice: state.cartTotalPrice + tempData.itemTotalPrice,
                     totalItems: state.cartItems.length + 1,
-                    totalQuantity: state.totalQuantity + 1
+                    totalQuantity: state.totalQuantity + (action.data.qty || 1)
                 }
             }
 

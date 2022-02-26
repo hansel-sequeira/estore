@@ -19,11 +19,6 @@ const Product = ()=>{
         dispatch(cartAction.addCartItem(cartItem));
     }
 
-    // to print the cart's state on inserting a product in the cart
-    // useEffect(()=>{
-    //     console.log("Cart's state: ", cart);
-    // },[cart])
-
     return(
         <div className="row">
             {filteredProducts.map((item, index) => (
@@ -33,7 +28,7 @@ const Product = ()=>{
                             <img className="product__item__pic" src={item.src} />
                             <ul className="product__hover">
                                 <li>
-                                    <a href={null} onClick={()=>addCartItem(item)}>
+                                    <a className="product_cart_btn" href={null} onClick={()=>addCartItem(item)}>
                                         <span className="fa fa-shopping-cart" />
                                     </a>
                                 </li>

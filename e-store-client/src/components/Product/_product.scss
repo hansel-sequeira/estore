@@ -5,7 +5,11 @@
             li{
                 opacity: 1;
                 a{
-                    background: red;
+                    cursor: pointer;
+                    background: rgb(235, 68, 68);
+                    &:active{
+                        background: rgba(235,68,68,0.8);
+                    }
                 }
             }
         }
@@ -63,4 +67,8 @@
         color:#111111;
         font-weight: 600;
     }
+}
+
+.product_cart_btn:focus{
+    background: orange;
 }
